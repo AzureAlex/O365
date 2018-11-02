@@ -1,0 +1,71 @@
+##Office 356 
+
+##Kirjaudutaan O365 
+
+Connect-msolservice  
+Get-msolaccountsku  
+Get-msoldomain –DomainName domain  
+Get-msoluser- userprincipalname nimi  
+
+##Käyttäjät 
+
+#Luodaan käyttäjä  
+
+New-MsolUser -UserPrincipalName username@domainname –DisplayName “Firstname Lastname” –FirstName “Firstname” –LastName “Lastname”  
+
+#Luodaan käyttäjä ja annetaan lisenssi  
+
+New-MsolUser -UserPrincipalName username@domainname –DisplayName “Firstname Lastname” –FirstName “Firstname” –LastName “Lastname” –UsageLocation “2-letter location code” –LicenseAssignment “license”  
+
+#Kaikki käyttäjät listattuna  
+
+Get-MsolUser –All | ft displayname , Licenses | Out-File “c:\userlicenses.csv”  
+
+#Käyttäjän poisto  
+
+Remove-MsolUser -UserPrincipalName username@domainname –Force  
+
+#Käyttäjän poisto roskakorista  
+
+Remove-MsolUser -UserPrincipalName username@domainname –RemoveFromRecycleBin  
+
+#käyttäjän palautus
+
+Restore-MsolUser –UserPrincipalName userprincipalnameofusertorestore  
+
+#äyttäjälle lisenssi   
+
+Set-MsolUserLicense -UserPrincipalName username@domainname –AddLicenses “license”  
+
+#Poista lisenssi
+
+Set-MsolUserLicense -UserPrincipalName username@domainname –RemoveLicenses “license”  
+
+$Lisenssin vaihtp
+
+Set-MsolUserLicense -UserPrincipalName username@domainname -AddLicenses “newlicense” –RemoveLicenses “oldlicense”  
+
+ 
+
+##Ryhmä
+
+#Ryhmän luonti 
+New-MsolGroup -DisplayName “displayname” -Description “description”  
+
+#RYhmän poisto  
+
+Remove-MsolGroup -ObjectId objectid –Force  
+
+#Admin rollin lisäys  
+
+Add-MsolRoleMember -RoleName “nameofrole” –RoleMemberEmailAddress “useremailaddress”  
+
+
+#Kenellä kaikilla on kyseinen rooli  
+
+$role = Get-MsolRole –RoleName “Helpdesk Administrator”  
+
+
+#Poistetaan rooli  
+
+Remove-MsolRoleMember -RoleName “nameofrole” –RoleMemberEmailAddress “useremailaddress”  
